@@ -1,4 +1,4 @@
-package com.redeyes.passcodescreenexample
+package com.redeyes.passcodescreen.example
 
 import android.os.Bundle
 

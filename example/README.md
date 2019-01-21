@@ -1,24 +1,6 @@
-[![Pub](https://img.shields.io/pub/v/passcode_screen.svg)](https://pub.dartlang.org/packages/passcode_screen) 
+# Example
 
-# Flutter - Passcode Lock Screen
-
-A Flutter package for iOS and Android for showing passcode input screen, similar to Native iOS.
-
-<img src="passcode_screen_example/passcode-screen-demo.gif" width="300">
-
-## Installation
-
-First add `passcode_screen` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
-
-Then use import
-
-```dart
-import 'package:passcode_screen/passcode_screen.dart';
-```
-
-## What can it do for you?
-
-<img src="passcode_screen_example/passcode-screen-default.png" width="300">
+<img src="example/passcode-screen-default.png" width="300">
 
 1. Create a beautiful passcode lock view simply.
 
@@ -86,22 +68,4 @@ class KeyboardUIConfig {
 }
 ```
 
-<img src="passcode_screen_example/passcode-screen-custom.png" width="300">
-
-### iOS & Android
-
-Plugin is totally platform agnostic. No configuration required - the plugin should work out of the box.
-
-## Contributions
-Warmly welcome to submit a pull request!
-
-## Passcode Lock Screen
-Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev.com)
-
-### Used in production
-[Passkeep - Passwords Keeper](http://bit.ly/andpasskeep) 
-
-### Contributors 
-
-[Vladimir Hudnitsky](https://github.com/xPutnikx) 
-
+<img src="example/passcode-screen-custom.png" width="300">

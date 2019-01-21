@@ -110,7 +110,9 @@ class Keyboard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(color: keyboardUIConfig.primaryColor, width: keyboardUIConfig.digitBorderWidth),
+        border: Border.all(
+            color: keyboardUIConfig.primaryColor,
+            width: keyboardUIConfig.digitBorderWidth),
       ),
     );
   }

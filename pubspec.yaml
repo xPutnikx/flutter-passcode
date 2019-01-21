@@ -1,8 +1,8 @@
 name: passcode_screen
 description: Flutter package to create and verify passcode
 version: 1.0.0
-author:
-homepage:
+author: 'xPutnikx <vladimir.hudnitsky@gmail.com>'
+homepage: 'https://github.com/xPutnikx/flutter-passcode'
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"

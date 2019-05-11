@@ -1,6 +1,6 @@
 # Example
 
-<img src="example/passcode-screen-default.png" width="300">
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-demo.gif?raw=true" alt="passcode-screen-demo.gif" width="300">
 
 1. Create a beautiful passcode lock view simply.
 
@@ -68,7 +68,8 @@ class KeyboardUIConfig {
 }
 ```
 
-<img src="example/passcode-screen-custom.png" width="300">
+
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
 ## Relase notes:
 ### 1.0.0+1: 

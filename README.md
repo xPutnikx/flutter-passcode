@@ -105,3 +105,10 @@ Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev
 
 [Vladimir Hudnitsky](https://github.com/xPutnikx) 
 
+## Relase notes:
+### 1.0.0+1: 
+Basic implementation of a widget.
+- You could show a widget, enter passcode and validate it.
+
+ ### 1.0.1
+- Added `isValidCallback` to help you handle success scenario. `isValidCallback` will be invoked after passcode screen will pop.

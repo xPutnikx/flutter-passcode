@@ -69,3 +69,11 @@ class KeyboardUIConfig {
 ```
 
 <img src="example/passcode-screen-custom.png" width="300">
+
+## Relase notes:
+### 1.0.0+1: 
+Basic implementation of a widget.
+- You could show a widget, enter passcode and validate it.
+
+### 1.0.1
+- Added `isValidCallback` to help you handle success scenario. `isValidCallback` will be invoked after passcode screen will pop.

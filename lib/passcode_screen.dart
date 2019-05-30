@@ -9,6 +9,7 @@ import 'package:passcode_screen/shake_curve.dart';
 
 typedef PasswordEnteredCallback = void Function(String text);
 typedef IsValidCallback = void Function();
+typedef CancelCallback = void Function();
 
 class PasscodeScreen extends StatefulWidget {
   final String title;
@@ -17,6 +18,7 @@ class PasscodeScreen extends StatefulWidget {
   
   //isValidCallback will be invoked after passcode screen will pop.
   final IsValidCallback isValidCallback;
+  final CancelCallback cancelCallback;
   final String cancelLocalizedText;
   final String deleteLocalizedText;
   final Stream<bool> shouldTriggerVerification;
@@ -36,6 +38,7 @@ class PasscodeScreen extends StatefulWidget {
     this.circleUIConfig,
     this.keyboardUIConfig,
     this.bottomWidget,
+    this.cancelCallback,
   }) : super(key: key);
 
   @override
@@ -131,6 +134,10 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
       });
     } else {
       Navigator.maybePop(context);
+
+      if (widget.cancelCallback != null) {
+        widget.cancelCallback();
+      }
     }
   }
 

@@ -104,6 +104,8 @@ Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev
 ### Contributors 
 
 [Vladimir Hudnitsky](https://github.com/xPutnikx) 
+[BeDaut](https://github.com/BeDaut)
+[mix1009](https://github.com/mix1009)
 
 ## Relase notes:
 ### 1.0.0+1: 
@@ -113,6 +115,6 @@ Basic implementation of a widget.
  ### 1.0.1
 - Added `isValidCallback` to help you handle success scenario. `isValidCallback` will be invoked after passcode screen will pop.
 
-## [1.0.2] - 28 June 2019
+### 1.0.2
 - Added configurable background and title color. (by @BeDaut)
 - Added `cancelCallback` to react when user cancelled widget (by @mix1009)

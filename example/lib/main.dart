@@ -93,6 +93,8 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                 cancelLocalizedText: 'Cancel',
                 deleteLocalizedText: 'Delete',
                 shouldTriggerVerification: _verificationNotifier.stream,
+                backgroundColor: Colors.black.withOpacity(0.8),
+                cancelCallback: _onPasscodeCancelled,
               ),
         ));
   }
@@ -105,6 +107,10 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         this.isAuthenticated = isValid;
       });
     }
+  }
+
+  _onPasscodeCancelled() {
+
   }
 
   @override

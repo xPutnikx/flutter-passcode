@@ -6,3 +6,7 @@ Basic implementation of a widget.
 
 ## [1.0.1] - 12 May 2019
 - Added `isValidCallback` to help you handle success scenario. `isValidCallback` will be invoked after passcode screen will pop.
+
+## [1.0.2] - 28 June 2019
+- Added configurable background and title color.
+- Added `cancelCallback` to react when user cancelled widget

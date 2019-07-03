@@ -168,9 +168,9 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
 
   @override
   dispose() {
-    super.dispose();
     controller.dispose();
     streamSubscription.cancel();
+    super.dispose();
   }
 
   _showValidation(bool isValid) {

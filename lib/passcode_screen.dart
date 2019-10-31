@@ -10,7 +10,7 @@ import 'package:passcode_screen/shake_curve.dart';
 typedef PasswordEnteredCallback = void Function(String text);
 typedef IsValidCallback = void Function();
 typedef CancelCallback = void Function();
-
+typedef FingerCallback = void Function();
 class PasscodeScreen extends StatefulWidget {
   final String title;
   final int passwordDigits;
@@ -21,6 +21,7 @@ class PasscodeScreen extends StatefulWidget {
   //isValidCallback will be invoked after passcode screen will pop.
   final IsValidCallback isValidCallback;
   final CancelCallback cancelCallback;
+  final FingerCallback fingerPrint;
   final String cancelLocalizedText;
   final String deleteLocalizedText;
   final Stream<bool> shouldTriggerVerification;
@@ -37,6 +38,7 @@ class PasscodeScreen extends StatefulWidget {
     @required this.deleteLocalizedText,
     @required this.shouldTriggerVerification,
     this.isValidCallback,
+    this.fingerPrint,
     this.circleUIConfig,
     this.keyboardUIConfig,
     this.bottomWidget,
@@ -106,6 +108,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                   onKeyboardTap: _onKeyboardButtonPressed,
                   shouldShowCancel: enteredPasscode.length == 0,
                   cancelLocalizedText: widget.cancelLocalizedText,
+                  fingerPrint: widget.fingerPrint,
                   deleteLocalizedText: widget.deleteLocalizedText,
                   keyboardUIConfig: widget.keyboardUIConfig != null ? widget.keyboardUIConfig : KeyboardUIConfig(),
                 ),
@@ -168,9 +171,9 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
 
   @override
   dispose() {
+    super.dispose();
     controller.dispose();
     streamSubscription.cancel();
-    super.dispose();
   }
 
   _showValidation(bool isValid) {

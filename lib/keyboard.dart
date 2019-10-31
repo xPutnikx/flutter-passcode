@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 typedef KeyboardTapCallback = void Function(String text);
@@ -33,6 +34,7 @@ class Keyboard extends StatelessWidget {
   final bool shouldShowCancel;
   final String cancelLocalizedText;
   final String deleteLocalizedText;
+  final GestureTapCallback fingerPrint;
 
   Keyboard(
       {Key key,
@@ -40,6 +42,7 @@ class Keyboard extends StatelessWidget {
       @required this.onDeleteCancelTap,
       @required this.onKeyboardTap,
       this.shouldShowCancel = true,
+      this.fingerPrint,
       @required this.cancelLocalizedText,
       @required this.deleteLocalizedText})
       : super(key: key);
@@ -77,6 +80,7 @@ class Keyboard extends StatelessWidget {
         ),
         Stack(
           children: <Widget>[
+            Align(alignment: Alignment.topLeft, child: _buildFinger()),
             Center(child: _buildKeyboardDigit('0')),
             Align(alignment: Alignment.topRight, child: _buildDeleteButton())
           ],
@@ -134,6 +138,30 @@ class Keyboard extends StatelessWidget {
                 shouldShowCancel ? cancelLocalizedText : deleteLocalizedText,
                 style: keyboardUIConfig.deleteButtonTextStyle,
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildFinger() {
+    return Container(
+      margin: keyboardUIConfig.deleteButtonMargin,
+      height: keyboardUIConfig.digitSize,
+      width: keyboardUIConfig.digitSize,
+      child: ClipOval(
+        child: Material(
+          color: keyboardUIConfig.digitFillColor,
+          child: InkWell(
+            highlightColor: keyboardUIConfig.primaryColor,
+            splashColor: keyboardUIConfig.primaryColor.withOpacity(0.4),
+            onTap: fingerPrint,
+            child: Center(
+              child: Icon(
+                Icons.fingerprint,
+                color: Colors.white,
+                size: 45.0,
+              )
             ),
           ),
         ),

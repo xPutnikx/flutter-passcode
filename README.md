@@ -86,6 +86,78 @@ class KeyboardUIConfig {
 }
 ```
 
+
+Custom Fingerprint with https://pub.dev/packages/local_auth
+
+can added fingerprint
+
+```dart
+//example
+  callFinger() async {
+    bool canCheckBiometrics = await localAuth.canCheckBiometrics;
+    if(canCheckBiometrics){
+      List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
+      print(availableBiometrics);
+      if (Platform.isIOS) {
+        if (availableBiometrics.contains(BiometricType.face)) {
+          // Face ID.
+        } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+          // Touch ID.
+          didAuthenticate = await localAuth.authenticateWithBiometrics(localizedReason: 'Touch finger for unlock');
+        }
+      }else{
+        didAuthenticate = await localAuth.authenticateWithBiometrics(localizedReason: 'Touch finger for unlock');
+      }
+
+      if(didAuthenticate == false) {
+        print('cancel');
+      }else{
+        //finger pass
+        accessPass();
+      }
+    }else{
+      //show pin
+    }
+  }
+    Widget pinVerify(){
+    return PasscodeScreen(
+      title: 'Enter App passcode',
+      passwordEnteredCallback: _onPasscodeEntered,
+      cancelLocalizedText: 'Cancel',
+      deleteLocalizedText: 'Delete',
+      shouldTriggerVerification: _verificationNotifier.stream,
+      backgroundColor: Colors.black.withOpacity(0.8),
+      cancelCallback: _onPasscodeCancelled,
+      fingerPrint: callFinger,
+      isValidCallback: accessPass,
+    );
+  }
+
+    accessPass() {
+    AppRoutes.makeFirst(context, HomeLikewallet());
+  }
+  _onPasscodeCancelled() {
+
+  }
+  _onPasscodeEntered(String enteredPasscode) {
+    print(enteredPasscode);
+    bool isValid = '123456' == enteredPasscode;
+    if(isValid){
+      setState(() {
+        this.isAuthenticated = true;
+      });
+
+      print(this.isAuthenticated);
+      _verificationNotifier.add(isValid);
+    }
+
+  }
+  @override
+  void dispose() {
+    _verificationNotifier.close();
+    super.dispose();
+  }
+```
 <img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
 ### iOS & Android

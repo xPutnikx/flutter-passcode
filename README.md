@@ -73,6 +73,9 @@ class CircleUIConfig {
 }
 ```
 
+
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
+
 Customize keyboard
 ```dart
 class KeyboardUIConfig {
@@ -158,7 +161,7 @@ can added fingerprint
     super.dispose();
   }
 ```
-<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
+<img src="https://github.com/athlona64/flutter-passcode/blob/master/example/passcode_finger.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
 ### iOS & Android
 

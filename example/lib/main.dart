@@ -87,6 +87,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
           pageBuilder: (context, animation, secondaryAnimation) =>
               PasscodeScreen(
                 title: 'Enter App Passcode',
+                shouldShowCancelButton: false,
                 circleUIConfig: circleUIConfig,
                 keyboardUIConfig: keyboardUIConfig,
                 passwordEnteredCallback: _onPasscodeEntered,

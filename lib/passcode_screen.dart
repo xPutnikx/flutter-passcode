@@ -13,6 +13,7 @@ typedef CancelCallback = void Function();
 
 class PasscodeScreen extends StatefulWidget {
   final String title;
+  final bool shouldShowCancelButton;
   final int passwordDigits;
   final Color titleColor;
   final Color backgroundColor;
@@ -31,6 +32,7 @@ class PasscodeScreen extends StatefulWidget {
   PasscodeScreen({
     Key key,
     @required this.title,
+    this.shouldShowCancelButton = true,
     this.passwordDigits = 6,
     @required this.passwordEnteredCallback,
     @required this.cancelLocalizedText,
@@ -104,7 +106,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                 child: Keyboard(
                   onDeleteCancelTap: _onDeleteCancelButtonPressed,
                   onKeyboardTap: _onKeyboardButtonPressed,
-                  shouldShowCancel: enteredPasscode.length == 0,
+                  shouldShowCancel: widget.shouldShowCancelButton && enteredPasscode.length == 0,
                   cancelLocalizedText: widget.cancelLocalizedText,
                   deleteLocalizedText: widget.deleteLocalizedText,
                   keyboardUIConfig: widget.keyboardUIConfig != null ? widget.keyboardUIConfig : KeyboardUIConfig(),
@@ -137,7 +139,9 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
         enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1);
       });
     } else {
-      Navigator.maybePop(context);
+      if (widget.shouldShowCancelButton) {
+        Navigator.maybePop(context);
+      }
 
       if (widget.cancelCallback != null) {
         widget.cancelCallback();

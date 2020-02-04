@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/circle.dart';
+import 'package:passcode_screen/controller.dart';
 import 'package:passcode_screen/keyboard.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 
@@ -34,6 +35,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
       StreamController<bool>.broadcast();
 
   bool isAuthenticated = false;
+  EnteredPasscodeController controller = EnteredPasscodeController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +90,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
               PasscodeScreen(
                 title: 'Enter App Passcode',
                 shouldShowCancelButton: false,
+                enteredPasscodeController: controller,
                 circleUIConfig: circleUIConfig,
                 keyboardUIConfig: keyboardUIConfig,
                 passwordEnteredCallback: _onPasscodeEntered,
@@ -108,6 +111,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         this.isAuthenticated = isValid;
       });
     }
+    controller.clear();
   }
 
   _onPasscodeCancelled() {

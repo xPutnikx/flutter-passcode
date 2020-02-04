@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/circle.dart';
+import 'package:passcode_screen/controller.dart';
 import 'package:passcode_screen/keyboard.dart';
 import 'package:passcode_screen/shake_curve.dart';
 
@@ -27,6 +28,7 @@ class PasscodeScreen extends StatefulWidget {
   final Widget bottomWidget;
   final CircleUIConfig circleUIConfig;
   final KeyboardUIConfig keyboardUIConfig;
+  final EnteredPasscodeController enteredPasscodeController;
 
   PasscodeScreen({
     Key key,
@@ -43,6 +45,7 @@ class PasscodeScreen extends StatefulWidget {
     this.titleColor = Colors.white,
     this.backgroundColor,
     this.cancelCallback,
+    this.enteredPasscodeController,
   }) : super(key: key);
 
   @override
@@ -51,13 +54,18 @@ class PasscodeScreen extends StatefulWidget {
 
 class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProviderStateMixin {
   StreamSubscription<bool> streamSubscription;
-  String enteredPasscode = '';
+  EnteredPasscodeController enteredPasscodeController;
   AnimationController controller;
   Animation<double> animation;
 
   @override
   initState() {
     super.initState();
+    if (widget.enteredPasscodeController == null) {
+      enteredPasscodeController = EnteredPasscodeController();
+    } else {
+      enteredPasscodeController = widget.enteredPasscodeController;
+    }
     streamSubscription = widget.shouldTriggerVerification.listen((isValid) => _showValidation(isValid));
     controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     final Animation curve = CurvedAnimation(parent: controller, curve: ShakeCurve());
@@ -65,7 +73,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           setState(() {
-            enteredPasscode = '';
+            enteredPasscodeController.clear();
             controller.value = 0;
           });
         }
@@ -104,7 +112,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
                 child: Keyboard(
                   onDeleteCancelTap: _onDeleteCancelButtonPressed,
                   onKeyboardTap: _onKeyboardButtonPressed,
-                  shouldShowCancel: enteredPasscode.length == 0,
+                  shouldShowCancel: enteredPasscodeController.passcode.length == 0,
                   cancelLocalizedText: widget.cancelLocalizedText,
                   deleteLocalizedText: widget.deleteLocalizedText,
                   keyboardUIConfig: widget.keyboardUIConfig != null ? widget.keyboardUIConfig : KeyboardUIConfig(),
@@ -124,7 +132,7 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
     config.extraSize = animation.value;
     for (int i = 0; i < widget.passwordDigits; i++) {
       list.add(Circle(
-        filled: i < enteredPasscode.length,
+        filled: i < enteredPasscodeController.passcode.length,
         circleUIConfig: config,
       ));
     }
@@ -132,9 +140,10 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
   }
 
   _onDeleteCancelButtonPressed() {
-    if (enteredPasscode.length > 0) {
+    if (enteredPasscodeController.passcode.length > 0) {
       setState(() {
-        enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1);
+        enteredPasscodeController.set(enteredPasscodeController.passcode
+            .substring(0, enteredPasscodeController.passcode.length - 1));
       });
     } else {
       Navigator.maybePop(context);
@@ -147,10 +156,11 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
 
   _onKeyboardButtonPressed(String text) {
     setState(() {
-      if (enteredPasscode.length < widget.passwordDigits) {
-        enteredPasscode += text;
-        if (enteredPasscode.length == widget.passwordDigits) {
-          widget.passwordEnteredCallback(enteredPasscode);
+      if (enteredPasscodeController.passcode.length < widget.passwordDigits) {
+        enteredPasscodeController.append(text);
+        if (enteredPasscodeController.passcode.length ==
+            widget.passwordDigits) {
+          widget.passwordEnteredCallback(enteredPasscodeController.passcode);
         }
       }
     });

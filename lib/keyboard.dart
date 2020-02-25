@@ -75,10 +75,15 @@ class Keyboard extends StatelessWidget {
             _buildKeyboardDigit('9'),
           ],
         ),
-        Stack(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Center(child: _buildKeyboardDigit('0')),
-            Align(alignment: Alignment.topRight, child: _buildDeleteButton())
+            Container(
+              width: keyboardUIConfig.digitSize,
+              height: keyboardUIConfig.digitSize,
+            ),
+            _buildKeyboardDigit('0'),
+            _buildDeleteButton(),
           ],
         ),
       ],
@@ -119,7 +124,7 @@ class Keyboard extends StatelessWidget {
 
   Widget _buildDeleteButton() {
     return Container(
-      margin: keyboardUIConfig.deleteButtonMargin,
+      margin: keyboardUIConfig.keyboardRowMargin,
       height: keyboardUIConfig.digitSize,
       width: keyboardUIConfig.digitSize,
       child: ClipOval(

@@ -27,6 +27,7 @@ class PasscodeScreen extends StatefulWidget {
   final Widget bottomWidget;
   final CircleUIConfig circleUIConfig;
   final KeyboardUIConfig keyboardUIConfig;
+  final bool dismissWhenDeleteEmpty;
 
   PasscodeScreen({
     Key key,
@@ -43,6 +44,7 @@ class PasscodeScreen extends StatefulWidget {
     this.titleColor = Colors.white,
     this.backgroundColor,
     this.cancelCallback,
+    this.dismissWhenDeleteEmpty = true,
   }) : super(key: key);
 
   @override
@@ -137,7 +139,9 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
         enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1);
       });
     } else {
-      Navigator.maybePop(context);
+      if (widget.dismissWhenDeleteEmpty) {
+        Navigator.maybePop(context);
+      }
 
       if (widget.cancelCallback != null) {
         widget.cancelCallback();

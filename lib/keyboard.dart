@@ -108,6 +108,7 @@ class Keyboard extends StatelessWidget {
               child: Text(
                 text,
                 style: keyboardUIConfig.digitTextStyle,
+                semanticsLabel: text,
               ),
             ),
           ),
@@ -138,6 +139,7 @@ class Keyboard extends StatelessWidget {
               child: Text(
                 shouldShowCancel ? cancelLocalizedText : deleteLocalizedText,
                 style: keyboardUIConfig.deleteButtonTextStyle,
+                semanticsLabel: shouldShowCancel ? cancelLocalizedText : deleteLocalizedText,
               ),
             ),
           ),

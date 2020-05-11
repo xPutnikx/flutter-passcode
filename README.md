@@ -120,7 +120,7 @@ Basic implementation of a widget.
 - Added configurable background and title color. (by @BeDaut)
 - Added `cancelCallback` to react when user cancelled widget (by @mix1009)
 
-### 1.0.3
+### 1.1.0
 - Provide widget instead of string for title
 - Fixed digits layout
 - Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets

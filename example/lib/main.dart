@@ -30,8 +30,7 @@ class ExampleHomePage extends StatefulWidget {
 }
 
 class _ExampleHomePageState extends State<ExampleHomePage> {
-  final StreamController<bool> _verificationNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
 
   bool isAuthenticated = false;
 
@@ -68,39 +67,32 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         onPressed: () {
           _showLockScreen(context,
               opaque: false,
-              circleUIConfig: CircleUIConfig(
-                  borderColor: Colors.blue,
-                  fillColor: Colors.blue,
-                  circleSize: 30),
+              circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
               keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue));
         },
       );
 
   _showLockScreen(BuildContext context,
-      {bool opaque,
-      CircleUIConfig circleUIConfig,
-      KeyboardUIConfig keyboardUIConfig}) {
+      {bool opaque, CircleUIConfig circleUIConfig, KeyboardUIConfig keyboardUIConfig}) {
     Navigator.push(
         context,
         PageRouteBuilder(
           opaque: opaque,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              PasscodeScreen(
-                title: Text('Enter App Passcode',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 45
-                ),),
-                circleUIConfig: circleUIConfig,
-                keyboardUIConfig: keyboardUIConfig,
-                passwordEnteredCallback: _onPasscodeEntered,
-                cancelLocalizedText: 'Cancel',
-                deleteLocalizedText: 'Delete',
-                shouldTriggerVerification: _verificationNotifier.stream,
-                backgroundColor: Colors.black.withOpacity(0.8),
-                cancelCallback: _onPasscodeCancelled,
-              ),
+          pageBuilder: (context, animation, secondaryAnimation) => PasscodeScreen(
+            title: Text(
+              'Enter App Passcode',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 45),
+            ),
+            circleUIConfig: circleUIConfig,
+            keyboardUIConfig: keyboardUIConfig,
+            passwordEnteredCallback: _onPasscodeEntered,
+            cancelLocalizedText: 'Cancel',
+            deleteLocalizedText: 'Delete',
+            shouldTriggerVerification: _verificationNotifier.stream,
+            backgroundColor: Colors.black.withOpacity(0.8),
+            cancelCallback: _onPasscodeCancelled,
+          ),
         ));
   }
 
@@ -114,9 +106,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
     }
   }
 
-  _onPasscodeCancelled() {
-
-  }
+  _onPasscodeCancelled() {}
 
   @override
   void dispose() {

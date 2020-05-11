@@ -19,10 +19,8 @@ class KeyboardUIConfig {
     this.primaryColor = Colors.white,
     this.digitFillColor = Colors.transparent,
     this.digitTextStyle = const TextStyle(fontSize: 30, color: Colors.white),
-    this.deleteButtonMargin =
-        const EdgeInsets.only(right: 25, left: 20, top: 15),
-    this.deleteButtonTextStyle =
-        const TextStyle(fontSize: 16, color: Colors.white),
+    this.deleteButtonMargin = const EdgeInsets.only(right: 25, left: 20, top: 15),
+    this.deleteButtonTextStyle = const TextStyle(fontSize: 16, color: Colors.white),
   });
 }
 
@@ -31,50 +29,45 @@ class Keyboard extends StatelessWidget {
   final GestureTapCallback onDeleteCancelTap;
   final KeyboardTapCallback onKeyboardTap;
   final bool shouldShowCancel;
-  final String cancelLocalizedText;
-  final String deleteLocalizedText;
+  final Widget cancelButton;
+  final Widget deleteButton;
 
-  Keyboard(
-      {Key key,
-      @required this.keyboardUIConfig,
-      @required this.onDeleteCancelTap,
-      @required this.onKeyboardTap,
-      this.shouldShowCancel = true,
-      @required this.cancelLocalizedText,
-      @required this.deleteLocalizedText})
-      : super(key: key);
+  //should have a proper order [1...9, 0]
+  final List<String> digits;
+
+  Keyboard({
+    Key key,
+    @required this.keyboardUIConfig,
+    @required this.onDeleteCancelTap,
+    @required this.onKeyboardTap,
+    this.shouldShowCancel = true,
+    @required this.cancelButton,
+    @required this.deleteButton,
+    this.digits,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => _buildKeyboard();
 
   Widget _buildKeyboard() {
+    List<String> keyboardItems = List.filled(10, '0');
+    if (digits == null || digits.isEmpty) {
+      keyboardItems = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    } else {
+      keyboardItems = digits;
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildKeyboardDigit('1'),
-            _buildKeyboardDigit('2'),
-            _buildKeyboardDigit('3'),
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: keyboardItems.sublist(0, 3).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildKeyboardDigit('4'),
-            _buildKeyboardDigit('5'),
-            _buildKeyboardDigit('6'),
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: keyboardItems.sublist(3, 6).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildKeyboardDigit('7'),
-            _buildKeyboardDigit('8'),
-            _buildKeyboardDigit('9'),
-          ],
-        ),
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: keyboardItems.sublist(6, 9).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -82,7 +75,7 @@ class Keyboard extends StatelessWidget {
               width: keyboardUIConfig.digitSize,
               height: keyboardUIConfig.digitSize,
             ),
-            _buildKeyboardDigit('0'),
+            _buildKeyboardDigit(keyboardItems[9]),
             _buildDeleteButton(),
           ],
         ),
@@ -116,9 +109,7 @@ class Keyboard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        border: Border.all(
-            color: keyboardUIConfig.primaryColor,
-            width: keyboardUIConfig.digitBorderWidth),
+        border: Border.all(color: keyboardUIConfig.primaryColor, width: keyboardUIConfig.digitBorderWidth),
       ),
     );
   }
@@ -136,11 +127,7 @@ class Keyboard extends StatelessWidget {
             splashColor: keyboardUIConfig.primaryColor.withOpacity(0.4),
             onTap: onDeleteCancelTap,
             child: Center(
-              child: Text(
-                shouldShowCancel ? cancelLocalizedText : deleteLocalizedText,
-                style: keyboardUIConfig.deleteButtonTextStyle,
-                semanticsLabel: shouldShowCancel ? cancelLocalizedText : deleteLocalizedText,
-              ),
+              child: shouldShowCancel ? cancelButton : deleteButton,
             ),
           ),
         ),

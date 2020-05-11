@@ -57,7 +57,15 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         color: Theme.of(context).primaryColor,
         child: Text('Open Default Lock Screen'),
         onPressed: () {
-          _showLockScreen(context, opaque: false);
+          _showLockScreen(
+            context,
+            opaque: false,
+            cancelButton: Text(
+              'Cancel',
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              semanticsLabel: 'Cancel',
+            ),
+          );
         },
       );
 
@@ -65,15 +73,22 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         color: Theme.of(context).primaryColor,
         child: Text('Open Custom Lock Screen'),
         onPressed: () {
-          _showLockScreen(context,
-              opaque: false,
-              circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
-              keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue));
+          _showLockScreen(
+            context,
+            opaque: false,
+            circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
+            keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue),
+            cancelButton: Icon(
+              Icons.arrow_back,
+              color: Colors.blue,
+            ),
+            digits: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '零']
+          );
         },
       );
 
   _showLockScreen(BuildContext context,
-      {bool opaque, CircleUIConfig circleUIConfig, KeyboardUIConfig keyboardUIConfig}) {
+      {bool opaque, CircleUIConfig circleUIConfig, KeyboardUIConfig keyboardUIConfig, Widget cancelButton, List<String> digits}) {
     Navigator.push(
         context,
         PageRouteBuilder(
@@ -87,11 +102,16 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
             circleUIConfig: circleUIConfig,
             keyboardUIConfig: keyboardUIConfig,
             passwordEnteredCallback: _onPasscodeEntered,
-            cancelLocalizedText: 'Cancel',
-            deleteLocalizedText: 'Delete',
+            cancelButton: cancelButton,
+            deleteButton: Text(
+              'Delete',
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+              semanticsLabel: 'Delete',
+            ),
             shouldTriggerVerification: _verificationNotifier.stream,
             backgroundColor: Colors.black.withOpacity(0.8),
             cancelCallback: _onPasscodeCancelled,
+            digits: digits,
           ),
         ));
   }

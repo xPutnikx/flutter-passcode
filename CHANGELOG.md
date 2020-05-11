@@ -10,3 +10,5 @@ Basic implementation of a widget.
 ## [1.0.2] - 28 June 2019
 - Added configurable background and title color.
 - Added `cancelCallback` to react when user cancelled widget
+- Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets
+- Added flexibility to provide digits as list of strings for better customisation

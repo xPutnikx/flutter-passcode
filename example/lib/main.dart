@@ -86,7 +86,12 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
           opaque: opaque,
           pageBuilder: (context, animation, secondaryAnimation) =>
               PasscodeScreen(
-                title: 'Enter App Passcode',
+                title: Text('Enter App Passcode',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 45
+                ),),
                 circleUIConfig: circleUIConfig,
                 keyboardUIConfig: keyboardUIConfig,
                 passwordEnteredCallback: _onPasscodeEntered,

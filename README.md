@@ -123,3 +123,6 @@ Basic implementation of a widget.
 ### 1.0.3
 - Provide widget instead of string for title
 - Fixed digits layout
+- Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets
+- Added flexibility to provide digits as list of strings for better customisation
+- Removed navigation as default action when cancel pressed

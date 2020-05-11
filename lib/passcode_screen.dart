@@ -135,8 +135,6 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
         enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1);
       });
     } else {
-      Navigator.maybePop(context);
-
       if (widget.cancelCallback != null) {
         widget.cancelCallback();
       }

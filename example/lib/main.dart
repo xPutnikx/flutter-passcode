@@ -126,7 +126,9 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
     }
   }
 
-  _onPasscodeCancelled() {}
+  _onPasscodeCancelled() {
+    Navigator.maybePop(context);
+  }
 
   @override
   void dispose() {

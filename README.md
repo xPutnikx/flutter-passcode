@@ -106,6 +106,7 @@ Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev
 [Vladimir Hudnitsky](https://github.com/xPutnikx) 
 [BeDaut](https://github.com/BeDaut)
 [mix1009](https://github.com/mix1009)
+[pixnbit](https://github.com/pixnbit)
 
 ## Relase notes:
 ### 1.0.0+1: 
@@ -118,3 +119,7 @@ Basic implementation of a widget.
 ### 1.0.2
 - Added configurable background and title color. (by @BeDaut)
 - Added `cancelCallback` to react when user cancelled widget (by @mix1009)
+
+### 1.0.3
+- Provide widget instead of string for title
+- Fixed digits layout

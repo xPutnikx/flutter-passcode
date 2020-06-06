@@ -2,6 +2,7 @@ library passcode_screen;
 
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passcode_screen/circle.dart';
 import 'package:passcode_screen/keyboard.dart';
@@ -20,6 +21,7 @@ class PasscodeScreen extends StatefulWidget {
   //isValidCallback will be invoked after passcode screen will pop.
   final IsValidCallback isValidCallback;
   final CancelCallback cancelCallback;
+
   // Cancel button and delete button will be switched based on the screen state
   final Widget cancelButton;
   final Widget deleteButton;
@@ -82,49 +84,105 @@ class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
-      body: Center(
+      body: SafeArea(
+        child: OrientationBuilder(
+          builder: (context, orientation) {
+            return orientation == Orientation.portrait
+                ? _buildPortraitPasscodeScreen()
+                : _buildLandscapePasscodeScreen();
+          },
+        ),
+      ),
+    );
+  }
+
+  _buildPortraitPasscodeScreen() => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             widget.title,
             Container(
-              margin: const EdgeInsets.only(top: 20, left: 60, right: 60),
+              margin: const EdgeInsets.only(top: 20),
               height: 40,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: _buildCircles(),
               ),
             ),
-            IntrinsicHeight(
-              child: Container(
-                margin: const EdgeInsets.only(top: 20, left: 40, right: 40),
-                child: Keyboard(
-                  onDeleteCancelTap: _onDeleteCancelButtonPressed,
-                  onKeyboardTap: _onKeyboardButtonPressed,
-                  shouldShowCancel: enteredPasscode.length == 0,
-                  cancelButton: widget.cancelButton,
-                  deleteButton: widget.deleteButton,
-                  keyboardUIConfig: widget.keyboardUIConfig != null ? widget.keyboardUIConfig : KeyboardUIConfig(),
-                  digits: widget.digits,
-                ),
-              ),
-            ),
+            _buildKeyboard(),
             widget.bottomWidget != null ? widget.bottomWidget : Container()
           ],
         ),
-      ),
-    );
-  }
+      );
+
+  _buildLandscapePasscodeScreen() => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 30),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        widget.title,
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: _buildCircles(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                widget.bottomWidget != null
+                    ? Positioned(
+                        child: Align(alignment: Alignment.topCenter, child: widget.bottomWidget),
+                      )
+                    : Container()
+              ],
+            ),
+          ),
+          _buildKeyboard(),
+        ],
+      );
+
+  _buildKeyboard() => Container(
+    margin: const EdgeInsets.only(left: 40, right: 40),
+    child: Keyboard(
+      onDeleteCancelTap: _onDeleteCancelButtonPressed,
+      onKeyboardTap: _onKeyboardButtonPressed,
+      shouldShowCancel: enteredPasscode.length == 0,
+      cancelButton: widget.cancelButton,
+      deleteButton: widget.deleteButton,
+      keyboardUIConfig:
+      widget.keyboardUIConfig != null ? widget.keyboardUIConfig : KeyboardUIConfig(digitSize: 60),
+      digits: widget.digits,
+    ),
+  );
 
   List<Widget> _buildCircles() {
     var list = <Widget>[];
     var config = widget.circleUIConfig != null ? widget.circleUIConfig : CircleUIConfig();
     config.extraSize = animation.value;
     for (int i = 0; i < widget.passwordDigits; i++) {
-      list.add(Circle(
-        filled: i < enteredPasscode.length,
-        circleUIConfig: config,
-      ));
+      list.add(
+        Container(
+          margin: EdgeInsets.all(8),
+          child: Circle(
+            filled: i < enteredPasscode.length,
+            circleUIConfig: config,
+          ),
+        ),
+      );
     }
     return list;
   }

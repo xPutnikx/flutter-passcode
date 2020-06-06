@@ -97,7 +97,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
             title: Text(
               'Enter App Passcode',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 45),
+              style: TextStyle(color: Colors.white, fontSize: 28),
             ),
             circleUIConfig: circleUIConfig,
             keyboardUIConfig: keyboardUIConfig,

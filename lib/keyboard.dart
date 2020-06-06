@@ -15,7 +15,7 @@ class KeyboardUIConfig {
   KeyboardUIConfig({
     this.digitSize = 80,
     this.digitBorderWidth = 1,
-    this.keyboardRowMargin = const EdgeInsets.only(top: 15),
+    this.keyboardRowMargin = const EdgeInsets.only(top: 15, left: 4, right: 4),
     this.primaryColor = Colors.white,
     this.digitFillColor = Colors.transparent,
     this.digitTextStyle = const TextStyle(fontSize: 30, color: Colors.white),
@@ -58,18 +58,23 @@ class Keyboard extends StatelessWidget {
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             children: keyboardItems.sublist(0, 3).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             children: keyboardItems.sublist(3, 6).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             children: keyboardItems.sublist(6, 9).map((e) => _buildKeyboardDigit(e)).toList()),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
               width: keyboardUIConfig.digitSize,

@@ -11,9 +11,12 @@ Basic implementation of a widget.
 - Added configurable background and title color.
 - Added `cancelCallback` to react when user cancelled widget
 
-## [1.1.0] - Not released
+## [1.1.0] - 11 May 2020
 - Provide widget instead of string for title
 - Fixed digits layout
 - Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets
 - Added flexibility to provide digits as list of strings for better customisation
 - Removed navigation as default action when cancel pressed
+
+## [1.1.1] - 6 June 2020
+- Add landscape view for the passcode screen

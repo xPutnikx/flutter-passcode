@@ -126,3 +126,6 @@ Basic implementation of a widget.
 - Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets
 - Added flexibility to provide digits as list of strings for better customisation
 - Removed navigation as default action when cancel pressed
+
+## [1.1.1]
+- Add landscape view for the passcode screen

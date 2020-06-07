@@ -71,6 +71,9 @@ class KeyboardUIConfig {
 
 <img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
+## Landscape Support
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-default-lanscape.png?raw=true" alt="passcode-screen-custom.png" width="300">
+
 ## Relase notes:
 ### 1.0.0+1: 
 Basic implementation of a widget.
@@ -78,3 +81,21 @@ Basic implementation of a widget.
 
 ### 1.0.1
 - Added `isValidCallback` to help you handle success scenario. `isValidCallback` will be invoked after passcode screen will pop.
+
+### [1.0.2]
+- Added configurable background and title color.
+- Added `cancelCallback` to react when user cancelled widget
+
+### [1.1.0]
+- Provide widget instead of string for title
+- Fixed digits layout
+- Added flexibility to configure 'Cancel' and 'Delete' buttons as widgets
+- Added flexibility to provide digits as list of strings for better customisation
+- Removed navigation as default action when cancel pressed
+
+### [1.1.1]
+- Add landscape view for the passcode screen
+
+### [1.2.0]
+- Add dynamic size for landscape view.
+- Moved 'Cancel' button to the bottom of the screen to align with iOS Native Passcode Screen style.

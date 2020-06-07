@@ -88,6 +88,9 @@ class KeyboardUIConfig {
 
 <img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
+## Landscape Support
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-default-lanscape.png?raw=true" alt="passcode-screen-custom.png" width="300">
+
 ### iOS & Android
 
 Plugin is totally platform agnostic. No configuration required - the plugin should work out of the box.

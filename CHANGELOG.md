@@ -20,3 +20,7 @@ Basic implementation of a widget.
 
 ## [1.1.1] - 6 June 2020
 - Add landscape view for the passcode screen
+
+## [1.2.0] - 7 June 2020
+- Add dynamic size for landscape view.
+- Moved 'Cancel' button to the bottom of the screen to align with iOS Native Passcode Screen style.

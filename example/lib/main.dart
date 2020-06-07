@@ -69,12 +69,13 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
         },
       );
 
-  _customColorsLockScreenButton(BuildContext context) => MaterialButton(
-        color: Theme.of(context).primaryColor,
-        child: Text('Open Custom Lock Screen'),
-        onPressed: () {
-          _showLockScreen(
-            context,
+  _customColorsLockScreenButton(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return MaterialButton(
+      color: Theme.of(context).primaryColor,
+      child: Text('Open Custom Lock Screen'),
+      onPressed: () {
+        _showLockScreen(context,
             opaque: false,
             circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
             keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue),
@@ -82,13 +83,17 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
               Icons.arrow_back,
               color: Colors.blue,
             ),
-            digits: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '零']
-          );
-        },
-      );
+            digits: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '零']);
+      },
+    );
+  }
 
   _showLockScreen(BuildContext context,
-      {bool opaque, CircleUIConfig circleUIConfig, KeyboardUIConfig keyboardUIConfig, Widget cancelButton, List<String> digits}) {
+      {bool opaque,
+      CircleUIConfig circleUIConfig,
+      KeyboardUIConfig keyboardUIConfig,
+      Widget cancelButton,
+      List<String> digits}) {
     Navigator.push(
         context,
         PageRouteBuilder(

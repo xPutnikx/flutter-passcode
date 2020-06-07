@@ -72,7 +72,7 @@ class KeyboardUIConfig {
 <img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-custom.png?raw=true" alt="passcode-screen-custom.png" width="300">
 
 ## Landscape Support
-<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-default-lanscape.png?raw=true" alt="passcode-screen-custom.png" width="300">
+<img src="https://github.com/xPutnikx/flutter-passcode/blob/master/example/passcode-screen-default-landscape.png?raw=true" alt="passcode-screen-default-lanscape.png" width="300">
 
 ## Relase notes:
 ### 1.0.0+1: 

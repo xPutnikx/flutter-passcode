@@ -110,6 +110,7 @@ Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev
 [BeDaut](https://github.com/BeDaut)
 [mix1009](https://github.com/mix1009)
 [pixnbit](https://github.com/pixnbit)
+[ssanderson](https://github.com/ssanderson)
 
 ## Relase notes:
 ### 1.0.0+1: 

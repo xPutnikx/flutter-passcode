@@ -117,6 +117,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
             backgroundColor: Colors.black.withOpacity(0.8),
             cancelCallback: _onPasscodeCancelled,
             digits: digits,
+            passwordDigits: 6,
           ),
         ));
   }

@@ -24,3 +24,7 @@ Basic implementation of a widget.
 ## [1.2.0] - 7 June 2020
 - Add dynamic size for landscape view.
 - Moved 'Cancel' button to the bottom of the screen to align with iOS Native Passcode Screen style.
+
+## [1.2.1] - 25 October 2020
+- Example updated to target Android 11
+- Fixed [Issue#23](https://github.com/xPutnikx/flutter-passcode/issues/23)

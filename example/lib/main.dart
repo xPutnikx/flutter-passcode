@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+const storedPasscode = '123456';
+
 class ExampleHomePage extends StatefulWidget {
   ExampleHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -118,12 +120,13 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
             cancelCallback: _onPasscodeCancelled,
             digits: digits,
             passwordDigits: 6,
+            bottomWidget: _buildPasscodeRestoreButton(),
           ),
         ));
   }
 
   _onPasscodeEntered(String enteredPasscode) {
-    bool isValid = '123456' == enteredPasscode;
+    bool isValid = storedPasscode == enteredPasscode;
     _verificationNotifier.add(isValid);
     if (isValid) {
       setState(() {
@@ -141,4 +144,71 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
     _verificationNotifier.close();
     super.dispose();
   }
+
+  _buildPasscodeRestoreButton() => Align(
+    alignment: Alignment.bottomCenter,
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 10.0, top: 20.0),
+      child: FlatButton(
+        child: Text(
+          "Reset passcode",
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w300),
+        ),
+        splashColor: Colors.white.withOpacity(0.4),
+        highlightColor: Colors.white.withOpacity(0.2),
+        onPressed: _resetAppPassword,
+      ),
+    ),
+  );
+
+  _resetAppPassword() {
+      Navigator.maybePop(context).then((result) {
+        if (!result) {
+          return;
+        }
+        _showRestoreDialog(() {
+          Navigator.maybePop(context);
+          //TODO: Clear your stored passcode here
+        });
+      });
+    }
+
+  _showRestoreDialog(VoidCallback onAccepted) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Reset passcode",
+            style: const TextStyle(color: Colors.black87),
+          ),
+          content: Text(
+            "Passcode reset is a non-secure operation!\n\nConsider removing all user data if this action performed.",
+            style: const TextStyle(color: Colors.black87),
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: Text(
+                "Cancel",
+                style: const TextStyle(fontSize: 18),
+              ),
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "I understand",
+                style: const TextStyle(fontSize: 18),
+              ),
+              onPressed: onAccepted,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

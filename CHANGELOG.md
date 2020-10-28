@@ -32,3 +32,6 @@ Basic implementation of a widget.
 ## [1.2.2] - 25 October 2020
 - Fixed an issue with example build
 - Example updated to show how to implement 'Reset passcode' feature
+
+## [1.2.2+1] - 28 October 2020
+- Fix antialiasing issue for keyboard https://github.com/xPutnikx/flutter-passcode/issues/26

@@ -12,6 +12,7 @@ class KeyboardUIConfig {
   final Color digitFillColor;
   final EdgeInsetsGeometry keyboardRowMargin;
   final EdgeInsetsGeometry digitInnerMargin;
+
   //Size for the keyboard can be define and provided from the app. If it will not be provided the size will be adjusted to a screen size.
   final Size keyboardSize;
 
@@ -75,23 +76,30 @@ class Keyboard extends StatelessWidget {
       margin: EdgeInsets.all(4),
       child: ClipOval(
         child: Material(
-          color: keyboardUIConfig.digitFillColor,
+          color: Colors.transparent,
           child: InkWell(
             splashColor: keyboardUIConfig.primaryColor.withOpacity(0.4),
             onTap: () {
               onKeyboardTap(text);
             },
             child: Container(
-              child: Center(
-                child: Text(
-                  text,
-                  style: keyboardUIConfig.digitTextStyle,
-                  semanticsLabel: text,
-                ),
-              ),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                color: Colors.transparent,
                 border: Border.all(color: keyboardUIConfig.primaryColor, width: keyboardUIConfig.digitBorderWidth),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: keyboardUIConfig.digitFillColor,
+                ),
+                child: Center(
+                  child: Text(
+                    text,
+                    style: keyboardUIConfig.digitTextStyle,
+                    semanticsLabel: text,
+                  ),
+                ),
               ),
             ),
           ),

@@ -15,20 +15,20 @@ typedef CancelCallback = void Function();
 class PasscodeScreen extends StatefulWidget {
   final Widget title;
   final int passwordDigits;
-  final Color? backgroundColor;
   final PasswordEnteredCallback passwordEnteredCallback;
+  // Cancel button and delete button will be switched based on the screen state
+  final Widget cancelButton;
+  final Widget deleteButton;
+  final Stream<bool> shouldTriggerVerification;
+  final CircleUIConfig circleUIConfig;
+  final KeyboardUIConfig keyboardUIConfig;
 
   //isValidCallback will be invoked after passcode screen will pop.
   final IsValidCallback? isValidCallback;
   final CancelCallback? cancelCallback;
 
-  // Cancel button and delete button will be switched based on the screen state
-  final Widget cancelButton;
-  final Widget deleteButton;
-  final Stream<bool> shouldTriggerVerification;
+  final Color? backgroundColor;
   final Widget? bottomWidget;
-  final CircleUIConfig circleUIConfig;
-  final KeyboardUIConfig keyboardUIConfig;
   final List<String>? digits;
 
   PasscodeScreen({
@@ -46,11 +46,8 @@ class PasscodeScreen extends StatefulWidget {
     this.backgroundColor,
     this.cancelCallback,
     this.digits,
-  })  : circleUIConfig =
-            circleUIConfig == null ? const CircleUIConfig() : circleUIConfig,
-        keyboardUIConfig = keyboardUIConfig == null
-            ? const KeyboardUIConfig()
-            : keyboardUIConfig,
+  })  : circleUIConfig = circleUIConfig ?? const CircleUIConfig(),
+        keyboardUIConfig = keyboardUIConfig ?? const KeyboardUIConfig(),
         super(key: key);
 
   @override

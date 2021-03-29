@@ -35,3 +35,6 @@ Basic implementation of a widget.
 
 ## [1.2.2+1] - 28 October 2020
 - Fix antialiasing issue for keyboard https://github.com/xPutnikx/flutter-passcode/issues/26
+
+## [2.0.0] - 29 March 2021
+- Null safety

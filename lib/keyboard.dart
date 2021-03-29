@@ -13,7 +13,8 @@ class KeyboardUIConfig {
   final EdgeInsetsGeometry keyboardRowMargin;
   final EdgeInsetsGeometry digitInnerMargin;
 
-  //Size for the keyboard can be define and provided from the app. If it will not be provided the size will be adjusted to a screen size.
+  //Size for the keyboard can be define and provided from the app.
+  //If it will not be provided the size will be adjusted to a screen size.
   final Size? keyboardSize;
 
   const KeyboardUIConfig({
@@ -47,11 +48,11 @@ class Keyboard extends StatelessWidget {
   Widget build(BuildContext context) => _buildKeyboard(context);
 
   Widget _buildKeyboard(BuildContext context) {
-    List<String>? keyboardItems = List.filled(10, '0');
+    List<String> keyboardItems = List.filled(10, '0');
     if (digits == null || digits!.isEmpty) {
       keyboardItems = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     } else {
-      keyboardItems = digits;
+      keyboardItems = digits!;
     }
     final screenSize = MediaQuery.of(context).size;
     final keyboardHeight = screenSize.height > screenSize.width
@@ -68,7 +69,7 @@ class Keyboard extends StatelessWidget {
       child: AlignedGrid(
         keyboardSize: keyboardSize,
         children: List.generate(10, (index) {
-          return _buildKeyboardDigit(keyboardItems![index]);
+          return _buildKeyboardDigit(keyboardItems[index]);
         }),
       ),
     );

@@ -111,6 +111,7 @@ Passcode Lock Screen is owned and maintained by [Redeyes Dev](http://redeyes-dev
 [mix1009](https://github.com/mix1009)
 [pixnbit](https://github.com/pixnbit)
 [ssanderson](https://github.com/ssanderson)
+[imejiasoft](https://github.com/imejiasoft)
 
 ## Relase notes:
 ### 1.0.0+1: 
@@ -145,3 +146,6 @@ Basic implementation of a widget.
 ## 1.2.2
 - Fixed an issue with example build
 - Example updated to show how to implement 'Reset passcode' feature
+
+## 2.0.0
+- Null safety

@@ -7,16 +7,25 @@ class CircleUIConfig {
   final double borderWidth;
   final double circleSize;
 
-  const CircleUIConfig(
-      {this.borderColor = Colors.white, this.borderWidth = 1, this.fillColor = Colors.white, this.circleSize = 20});
+  const CircleUIConfig({
+    this.borderColor = Colors.white,
+    this.borderWidth = 1,
+    this.fillColor = Colors.white,
+    this.circleSize = 20,
+  });
 }
 
 class Circle extends StatelessWidget {
   final bool filled;
   final CircleUIConfig circleUIConfig;
-  double extraSize = 0;
+  final double extraSize;
 
-  Circle({Key key, this.filled = false, @required this.circleUIConfig, this.extraSize = 0}) : super(key: key);
+  Circle({
+    Key? key,
+    this.filled = false,
+    required this.circleUIConfig,
+    this.extraSize = 0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +34,13 @@ class Circle extends StatelessWidget {
       width: circleUIConfig.circleSize,
       height: circleUIConfig.circleSize,
       decoration: BoxDecoration(
-          color: filled ? circleUIConfig.fillColor : Colors.transparent,
-          shape: BoxShape.circle,
-          border: Border.all(color: circleUIConfig.borderColor, width: circleUIConfig.borderWidth)),
+        color: filled ? circleUIConfig.fillColor : Colors.transparent,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: circleUIConfig.borderColor,
+          width: circleUIConfig.borderWidth,
+        ),
+      ),
     );
   }
 }

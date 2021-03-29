@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 const storedPasscode = '123456';
 
 class ExampleHomePage extends StatefulWidget {
-  ExampleHomePage({Key key, this.title}) : super(key: key);
+  ExampleHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -32,7 +32,8 @@ class ExampleHomePage extends StatefulWidget {
 }
 
 class _ExampleHomePageState extends State<ExampleHomePage> {
-  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
+  final StreamController<bool> _verificationNotifier =
+      StreamController<bool>.broadcast();
 
   bool isAuthenticated = false;
 
@@ -72,15 +73,18 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
       );
 
   _customColorsLockScreenButton(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return MaterialButton(
       color: Theme.of(context).primaryColor,
       child: Text('Open Custom Lock Screen'),
       onPressed: () {
         _showLockScreen(context,
             opaque: false,
-            circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
-            keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue),
+            circleUIConfig: CircleUIConfig(
+                borderColor: Colors.blue,
+                fillColor: Colors.blue,
+                circleSize: 30),
+            keyboardUIConfig: KeyboardUIConfig(
+                digitBorderWidth: 2, primaryColor: Colors.blue),
             cancelButton: Icon(
               Icons.arrow_back,
               color: Colors.blue,
@@ -90,17 +94,20 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
     );
   }
 
-  _showLockScreen(BuildContext context,
-      {bool opaque,
-      CircleUIConfig circleUIConfig,
-      KeyboardUIConfig keyboardUIConfig,
-      Widget cancelButton,
-      List<String> digits}) {
+  _showLockScreen(
+    BuildContext context, {
+    required bool opaque,
+    CircleUIConfig? circleUIConfig,
+    KeyboardUIConfig? keyboardUIConfig,
+    required Widget cancelButton,
+    List<String>? digits,
+  }) {
     Navigator.push(
         context,
         PageRouteBuilder(
           opaque: opaque,
-          pageBuilder: (context, animation, secondaryAnimation) => PasscodeScreen(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              PasscodeScreen(
             title: Text(
               'Enter App Passcode',
               textAlign: TextAlign.center,
@@ -146,33 +153,37 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
   }
 
   _buildPasscodeRestoreButton() => Align(
-    alignment: Alignment.bottomCenter,
-    child: Container(
-      margin: const EdgeInsets.only(bottom: 10.0, top: 20.0),
-      child: FlatButton(
-        child: Text(
-          "Reset passcode",
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w300),
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10.0, top: 20.0),
+          child: TextButton(
+            child: Text(
+              "Reset passcode",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300),
+            ),
+            onPressed: _resetAppPassword,
+            // splashColor: Colors.white.withOpacity(0.4),
+            // highlightColor: Colors.white.withOpacity(0.2),
+            // ),
+          ),
         ),
-        splashColor: Colors.white.withOpacity(0.4),
-        highlightColor: Colors.white.withOpacity(0.2),
-        onPressed: _resetAppPassword,
-      ),
-    ),
-  );
+      );
 
   _resetAppPassword() {
-      Navigator.maybePop(context).then((result) {
-        if (!result) {
-          return;
-        }
-        _showRestoreDialog(() {
-          Navigator.maybePop(context);
-          //TODO: Clear your stored passcode here
-        });
+    Navigator.maybePop(context).then((result) {
+      if (!result) {
+        return;
+      }
+      _showRestoreDialog(() {
+        Navigator.maybePop(context);
+        //TODO: Clear your stored passcode here
       });
-    }
+    });
+  }
 
   _showRestoreDialog(VoidCallback onAccepted) {
     showDialog(
@@ -189,7 +200,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
           ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            FlatButton(
+            TextButton(
               child: Text(
                 "Cancel",
                 style: const TextStyle(fontSize: 18),
@@ -198,7 +209,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
                 Navigator.maybePop(context);
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text(
                 "I understand",
                 style: const TextStyle(fontSize: 18),
@@ -210,5 +221,4 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
       },
     );
   }
-
 }

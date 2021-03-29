@@ -4,7 +4,7 @@ version: 1.2.2+1
 homepage: 'https://github.com/xPutnikx/flutter-passcode'
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -13,6 +13,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.0.0
+  mockito: ^5.0.2
 
 flutter:

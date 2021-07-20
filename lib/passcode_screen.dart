@@ -259,7 +259,9 @@ class _PasscodeScreenState extends State<PasscodeScreen>
 
   _showValidation(bool isValid) {
     if (isValid) {
-      Navigator.maybePop(context).then((pop) => _validationCallback());
+      if (Navigator.canPop(context)) {
+        Navigator.maybePop(context).then((pop) => _validationCallback());
+      }
     } else {
       controller.forward();
     }

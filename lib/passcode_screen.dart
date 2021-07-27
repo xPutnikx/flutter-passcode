@@ -29,7 +29,6 @@ class PasscodeScreen extends StatefulWidget {
 
   final Color? backgroundColor;
   final AppBar? appBar;
-  final double? circleHeight;
   final Widget? bottomWidget;
   final List<String>? digits;
 
@@ -47,7 +46,6 @@ class PasscodeScreen extends StatefulWidget {
     this.bottomWidget,
     this.backgroundColor,
     this.appBar,
-    this.circleHeight,
     this.cancelCallback,
     this.digits,
   })  : circleUIConfig = circleUIConfig ?? const CircleUIConfig(),
@@ -117,7 +115,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                   widget.title,
                   Container(
                     margin: const EdgeInsets.only(top: 20),
-                    height: widget.circleHeight ?? 40,
+                    height: 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: _buildCircles(),
@@ -159,7 +157,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                                 widget.title,
                                 Container(
                                   margin: const EdgeInsets.only(top: 20),
-                                  height: widget.circleHeight ?? 40,
+                                  height: 40,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: _buildCircles(),

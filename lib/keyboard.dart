@@ -65,7 +65,7 @@ class Keyboard extends StatelessWidget {
     return Container(
       width: keyboardSize.width,
       height: keyboardSize.height,
-      margin: EdgeInsets.only(top: 16),
+      margin: EdgeInsets.only(top: 26),
       child: AlignedGrid(
         keyboardSize: keyboardSize,
         children: List.generate(10, (index) {

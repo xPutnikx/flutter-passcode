@@ -117,7 +117,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                   widget.title,
                   Container(
                     margin: const EdgeInsets.only(top: 20),
-                    height: circleHeight ?? 40,
+                    height: widget.circleHeight ?? 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: _buildCircles(),
@@ -159,7 +159,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                                 widget.title,
                                 Container(
                                   margin: const EdgeInsets.only(top: 20),
-                                  height: circleHeight ?? 40,
+                                  height: widget.circleHeight ?? 40,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: _buildCircles(),

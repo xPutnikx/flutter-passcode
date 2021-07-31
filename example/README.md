@@ -8,8 +8,8 @@
 PasscodeScreen(
   title: title,
   passwordEnteredCallback: _onPasscodeEntered,
-  cancelLocalizedText: 'Cancel',
-  deleteLocalizedText: 'Delete',
+  cancelButton: Text('Cancel'),
+  deleteButton: Text('Delete'),
   shouldTriggerVerification: _verificationNotifier.stream,
   passwordDigits: 6,
 );

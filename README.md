@@ -26,8 +26,8 @@ import 'package:passcode_screen/passcode_screen.dart';
 PasscodeScreen(
   title: title,
   passwordEnteredCallback: _onPasscodeEntered,
-  cancelLocalizedText: 'Cancel',
-  deleteLocalizedText: 'Delete',
+  cancelButton: Text('Cancel'),
+  deleteButton: Text('Delete'),
   shouldTriggerVerification: _verificationNotifier.stream,  
 );
 ```

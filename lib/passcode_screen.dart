@@ -229,6 +229,10 @@ class _PasscodeScreenState extends State<PasscodeScreen>
   }
 
   _onKeyboardButtonPressed(String text) {
+    if (text == Keyboard.deleteButton) {
+      _onDeleteCancelButtonPressed();
+      return;
+    }
     setState(() {
       if (enteredPasscode.length < widget.passwordDigits) {
         enteredPasscode += text;

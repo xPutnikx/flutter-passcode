@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef KeyboardTapCallback = void Function(String text);
 
@@ -33,6 +34,8 @@ class KeyboardUIConfig {
 class Keyboard extends StatelessWidget {
   final KeyboardUIConfig keyboardUIConfig;
   final KeyboardTapCallback onKeyboardTap;
+  final _focusNode = FocusNode();
+  static String deleteButton = 'keyboard_delete_button';
 
   //should have a proper order [1...9, 0]
   final List<String>? digits;
@@ -66,11 +69,27 @@ class Keyboard extends StatelessWidget {
       width: keyboardSize.width,
       height: keyboardSize.height,
       margin: EdgeInsets.only(top: 16),
-      child: AlignedGrid(
-        keyboardSize: keyboardSize,
-        children: List.generate(10, (index) {
-          return _buildKeyboardDigit(keyboardItems[index]);
-        }),
+      child: RawKeyboardListener(
+        focusNode: _focusNode,
+        autofocus: true,
+        onKey: (event) {
+          if (event is RawKeyUpEvent) {
+            if (keyboardItems.contains(event.data.keyLabel)) {
+              onKeyboardTap(event.logicalKey.keyLabel);
+              return;
+            }
+            if (event.logicalKey.keyLabel== 'Backspace' || event.logicalKey.keyLabel == 'Delete') {
+              onKeyboardTap(Keyboard.deleteButton);
+              return;
+            }
+          }
+        },
+        child: AlignedGrid(
+          keyboardSize: keyboardSize,
+          children: List.generate(10, (index) {
+            return _buildKeyboardDigit(keyboardItems[index]);
+          }),
+        ),
       ),
     );
   }

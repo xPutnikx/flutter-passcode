@@ -38,3 +38,6 @@ Basic implementation of a widget.
 
 ## [2.0.0] - 29 March 2021
 - Null safety
+
+## [2.0.1] - 3 Jan 2022
+- Add Web & Desktop keyboard listener

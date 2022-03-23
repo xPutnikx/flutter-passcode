@@ -15,6 +15,8 @@ typedef CancelCallback = void Function();
 class PasscodeScreen extends StatefulWidget {
   final Widget title;
   final int passwordDigits;
+  final bool variablePinLength;
+  final Widget? confirmButton;
   final PasswordEnteredCallback passwordEnteredCallback;
   // Cancel button and delete button will be switched based on the screen state
   final Widget cancelButton;
@@ -35,6 +37,8 @@ class PasscodeScreen extends StatefulWidget {
     Key? key,
     required this.title,
     this.passwordDigits = 6,
+    this.variablePinLength = false,
+    this.confirmButton,
     required this.passwordEnteredCallback,
     required this.cancelButton,
     required this.deleteButton,
@@ -124,9 +128,18 @@ class _PasscodeScreenState extends State<PasscodeScreen>
               ),
             ),
           ),
+          if (widget.variablePinLength)
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: _buildConfirmButton(),
+              ),
+            ),
           Positioned(
             child: Align(
-              alignment: Alignment.bottomRight,
+              alignment: (widget.variablePinLength)
+                  ? Alignment.bottomLeft
+                  : Alignment.bottomRight,
               child: _buildDeleteButton(),
             ),
           ),
@@ -179,9 +192,18 @@ class _PasscodeScreenState extends State<PasscodeScreen>
               ),
             ),
           ),
+          if (widget.variablePinLength)
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: _buildConfirmButton(),
+              ),
+            ),
           Positioned(
             child: Align(
-              alignment: Alignment.bottomRight,
+              alignment: (widget.variablePinLength)
+                  ? Alignment.bottomLeft
+                  : Alignment.bottomRight,
               child: _buildDeleteButton(),
             ),
           )
@@ -200,7 +222,12 @@ class _PasscodeScreenState extends State<PasscodeScreen>
     var list = <Widget>[];
     var config = widget.circleUIConfig;
     var extraSize = animation.value;
-    for (int i = 0; i < widget.passwordDigits; i++) {
+    for (int i = 0;
+        i <
+            ((widget.variablePinLength)
+                ? enteredPasscode.length
+                : widget.passwordDigits);
+        i++) {
       list.add(
         Container(
           margin: EdgeInsets.all(8),
@@ -213,6 +240,12 @@ class _PasscodeScreenState extends State<PasscodeScreen>
       );
     }
     return list;
+  }
+
+  _onConfirmButtonPressed() {
+    if (enteredPasscode.length > 0) {
+      widget.passwordEnteredCallback(enteredPasscode);
+    }
   }
 
   _onDeleteCancelButtonPressed() {
@@ -234,9 +267,11 @@ class _PasscodeScreenState extends State<PasscodeScreen>
       return;
     }
     setState(() {
-      if (enteredPasscode.length < widget.passwordDigits) {
+      if (widget.variablePinLength ||
+          enteredPasscode.length < widget.passwordDigits) {
         enteredPasscode += text;
-        if (enteredPasscode.length == widget.passwordDigits) {
+        if (!widget.variablePinLength &&
+            enteredPasscode.length == widget.passwordDigits) {
           widget.passwordEnteredCallback(enteredPasscode);
         }
       }
@@ -287,6 +322,23 @@ class _PasscodeScreenState extends State<PasscodeScreen>
           child: enteredPasscode.length == 0
               ? widget.cancelButton
               : widget.deleteButton,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton() {
+    return Container(
+      child: CupertinoButton(
+        onPressed: _onConfirmButtonPressed,
+        child: Container(
+          margin: widget.keyboardUIConfig.digitInnerMargin,
+          child: widget.confirmButton ??
+              Text(
+                'OK',
+                style: const TextStyle(fontSize: 16, color: Colors.white),
+                semanticsLabel: 'OK',
+              ),
         ),
       ),
     );

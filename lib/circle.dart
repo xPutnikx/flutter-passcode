@@ -7,25 +7,27 @@ class CircleUIConfig {
   final double borderWidth;
   final double circleSize;
 
+  //IndicatorWidget allows you to define your own style instead of using the [Cicle]
+  final IndicatorWidget Function(bool, double)? indicatorBuilder;
+
   const CircleUIConfig({
     this.borderColor = Colors.white,
     this.borderWidth = 1,
     this.fillColor = Colors.white,
     this.circleSize = 20,
+    this.indicatorBuilder,
   });
 }
 
-class Circle extends StatelessWidget {
-  final bool filled;
+class Circle extends IndicatorWidget {
   final CircleUIConfig circleUIConfig;
-  final double extraSize;
 
   Circle({
     Key? key,
-    this.filled = false,
+    bool filled = false,
     required this.circleUIConfig,
-    this.extraSize = 0,
-  }) : super(key: key);
+    double extraSize = 0,
+  }) : super(key: key, filled: filled, extraSize: extraSize);
 
   @override
   Widget build(BuildContext context) {
@@ -43,4 +45,11 @@ class Circle extends StatelessWidget {
       ),
     );
   }
+}
+
+abstract class IndicatorWidget extends StatelessWidget {
+  final bool filled;
+  final double extraSize;
+
+  const IndicatorWidget({Key? key, required this.filled, this.extraSize = 0}) : super(key: key);
 }

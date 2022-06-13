@@ -32,8 +32,7 @@ class ExampleHomePage extends StatefulWidget {
 }
 
 class _ExampleHomePageState extends State<ExampleHomePage> {
-  final StreamController<bool> _verificationNotifier =
-      StreamController<bool>.broadcast();
+  final StreamController<bool> _verificationNotifier = StreamController<bool>.broadcast();
 
   bool isAuthenticated = false;
 
@@ -79,12 +78,8 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
       onPressed: () {
         _showLockScreen(context,
             opaque: false,
-            circleUIConfig: CircleUIConfig(
-                borderColor: Colors.blue,
-                fillColor: Colors.blue,
-                circleSize: 30),
-            keyboardUIConfig: KeyboardUIConfig(
-                digitBorderWidth: 2, primaryColor: Colors.blue),
+            circleUIConfig: CircleUIConfig(borderColor: Colors.blue, fillColor: Colors.blue, circleSize: 30),
+            keyboardUIConfig: KeyboardUIConfig(digitBorderWidth: 2, primaryColor: Colors.blue),
             cancelButton: Icon(
               Icons.arrow_back,
               color: Colors.blue,
@@ -102,17 +97,29 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
     required Widget cancelButton,
     List<String>? digits,
   }) {
+    final screenSize = MediaQuery.of(context).size;
+
     Navigator.push(
         context,
         PageRouteBuilder(
           opaque: opaque,
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              PasscodeScreen(
-            title: Text(
-              'Enter App Passcode',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 28),
+          pageBuilder: (context, animation, secondaryAnimation) => PasscodeScreen(
+            title: Container(
+              margin: EdgeInsets.only(top: screenSize.height * 0.08),
+              child: Text(
+                'Enter App Passcode',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontSize: 28),
+              ),
             ),
+            subtitle: Container(
+            margin: EdgeInsets.only(top: 12, right: 16, left: 16),
+            child: Text(
+              "And subtitle here",
+              style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
             circleUIConfig: circleUIConfig,
             keyboardUIConfig: keyboardUIConfig,
             passwordEnteredCallback: _onPasscodeEntered,
@@ -160,10 +167,7 @@ class _ExampleHomePageState extends State<ExampleHomePage> {
             child: Text(
               "Reset passcode",
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300),
+              style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w300),
             ),
             onPressed: _resetAppPassword,
             // splashColor: Colors.white.withOpacity(0.4),

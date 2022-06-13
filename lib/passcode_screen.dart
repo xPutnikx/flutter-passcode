@@ -13,12 +13,13 @@ typedef IsValidCallback = void Function();
 typedef CancelCallback = void Function();
 
 class PasscodeScreen extends StatefulWidget {
-  final Widget title;
+  final Widget? title;
+  final Widget? subtitle;
   final int passwordDigits;
   final PasswordEnteredCallback passwordEnteredCallback;
   // Cancel button and delete button will be switched based on the screen state
-  final Widget cancelButton;
-  final Widget deleteButton;
+  final Widget? cancelButton;
+  final Widget? deleteButton;
   final Stream<bool> shouldTriggerVerification;
   final CircleUIConfig circleUIConfig;
   final KeyboardUIConfig keyboardUIConfig;
@@ -33,11 +34,12 @@ class PasscodeScreen extends StatefulWidget {
 
   PasscodeScreen({
     Key? key,
-    required this.title,
+    this.title,
+    this.subtitle,
     this.passwordDigits = 6,
     required this.passwordEnteredCallback,
-    required this.cancelButton,
-    required this.deleteButton,
+    this.cancelButton,
+    this.deleteButton,
     required this.shouldTriggerVerification,
     this.isValidCallback,
     CircleUIConfig? circleUIConfig,
@@ -54,8 +56,7 @@ class PasscodeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _PasscodeScreenState();
 }
 
-class _PasscodeScreenState extends State<PasscodeScreen>
-    with SingleTickerProviderStateMixin {
+class _PasscodeScreenState extends State<PasscodeScreen> with SingleTickerProviderStateMixin {
   late StreamSubscription<bool> streamSubscription;
   String enteredPasscode = '';
   late AnimationController controller;
@@ -64,12 +65,9 @@ class _PasscodeScreenState extends State<PasscodeScreen>
   @override
   initState() {
     super.initState();
-    streamSubscription = widget.shouldTriggerVerification
-        .listen((isValid) => _showValidation(isValid));
-    controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
-    final Animation curve =
-        CurvedAnimation(parent: controller, curve: ShakeCurve());
+    streamSubscription = widget.shouldTriggerVerification.listen((isValid) => _showValidation(isValid));
+    controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+    final Animation curve = CurvedAnimation(parent: controller, curve: ShakeCurve());
     animation = Tween(begin: 0.0, end: 10.0).animate(curve as Animation<double>)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -88,42 +86,36 @@ class _PasscodeScreenState extends State<PasscodeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
       backgroundColor: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
       body: SafeArea(
-        child: OrientationBuilder(
-          builder: (context, orientation) {
-            return orientation == Orientation.portrait
-                ? _buildPortraitPasscodeScreen()
-                : _buildLandscapePasscodeScreen();
-          },
-        ),
+        child: isPortrait ? _buildPortraitPasscodeScreen() : _buildLandscapePasscodeScreen(),
       ),
     );
   }
 
   _buildPortraitPasscodeScreen() => Stack(
         children: [
-          Positioned(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  widget.title,
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    height: 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: _buildCircles(),
-                    ),
-                  ),
-                  _buildKeyboard(),
-                  widget.bottomWidget ?? Container()
-                ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              widget.title ?? Container(),
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildCircles(),
+                ),
               ),
-            ),
+              widget.subtitle ?? Container(),
+              _buildKeyboardPortrait(),
+            ],
           ),
+          Positioned(child: widget.bottomWidget ?? Container()),
           Positioned(
             child: Align(
               alignment: Alignment.bottomRight,
@@ -140,41 +132,40 @@ class _PasscodeScreenState extends State<PasscodeScreen>
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                widget.title,
-                                Container(
-                                  margin: const EdgeInsets.only(top: 20),
-                                  height: 40,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: _buildCircles(),
+                  Expanded(
+                    child: Container(
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            child: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  widget.title ?? Container(),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 20),
+                                    height: 40,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: _buildCircles(),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  widget.subtitle ?? Container(),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        widget.bottomWidget != null
-                            ? Positioned(
-                                child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: widget.bottomWidget),
-                              )
-                            : Container()
-                      ],
+                          widget.bottomWidget != null ? widget.bottomWidget! : Container()
+                        ],
+                      ),
                     ),
                   ),
-                  _buildKeyboard(),
+                  Expanded(
+                    child: _buildKeyboardLandscape(),
+                  ),
                 ],
               ),
             ),
@@ -188,7 +179,16 @@ class _PasscodeScreenState extends State<PasscodeScreen>
         ],
       );
 
-  _buildKeyboard() => Container(
+  _buildKeyboardPortrait() => Expanded(
+        flex: 1,
+        child: Keyboard(
+          onKeyboardTap: _onKeyboardButtonPressed,
+          keyboardUIConfig: widget.keyboardUIConfig,
+          digits: widget.digits,
+        ),
+      );
+
+  _buildKeyboardLandscape() => Container(
         child: Keyboard(
           onKeyboardTap: _onKeyboardButtonPressed,
           keyboardUIConfig: widget.keyboardUIConfig,
@@ -201,14 +201,17 @@ class _PasscodeScreenState extends State<PasscodeScreen>
     var config = widget.circleUIConfig;
     var extraSize = animation.value;
     for (int i = 0; i < widget.passwordDigits; i++) {
+      final isFilled = i < enteredPasscode.length;
       list.add(
         Container(
           margin: EdgeInsets.all(8),
-          child: Circle(
-            filled: i < enteredPasscode.length,
-            circleUIConfig: config,
-            extraSize: extraSize,
-          ),
+          child: widget.circleUIConfig.indicatorBuilder != null
+              ? widget.circleUIConfig.indicatorBuilder!(isFilled, extraSize)
+              : Circle(
+                  filled: isFilled,
+                  circleUIConfig: config,
+                  extraSize: extraSize,
+                ),
         ),
       );
     }
@@ -218,13 +221,21 @@ class _PasscodeScreenState extends State<PasscodeScreen>
   _onDeleteCancelButtonPressed() {
     if (enteredPasscode.length > 0) {
       setState(() {
-        enteredPasscode =
-            enteredPasscode.substring(0, enteredPasscode.length - 1);
+        enteredPasscode = enteredPasscode.substring(0, enteredPasscode.length - 1);
       });
     } else {
-      if (widget.cancelCallback != null) {
+      if (widget.cancelCallback != null && widget.deleteButton != null && widget.cancelButton != null) {
         widget.cancelCallback!();
       }
+    }
+  }
+
+  _onCancelButtonPressed() {
+    setState(() {
+      enteredPasscode = '';
+    });
+    if (widget.cancelCallback != null) {
+      widget.cancelCallback!();
     }
   }
 
@@ -249,8 +260,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
     // in case the stream instance changed, subscribe to the new one
     if (widget.shouldTriggerVerification != old.shouldTriggerVerification) {
       streamSubscription.cancel();
-      streamSubscription = widget.shouldTriggerVerification
-          .listen((isValid) => _showValidation(isValid));
+      streamSubscription = widget.shouldTriggerVerification.listen((isValid) => _showValidation(isValid));
     }
   }
 
@@ -273,22 +283,42 @@ class _PasscodeScreenState extends State<PasscodeScreen>
     if (widget.isValidCallback != null) {
       widget.isValidCallback!();
     } else {
-      print(
-          "You didn't implement validation callback. Please handle a state by yourself then.");
+      print("You didn't implement validation callback. Please handle a state by yourself then.");
     }
   }
 
   Widget _buildDeleteButton() {
-    return Container(
-      child: CupertinoButton(
-        onPressed: _onDeleteCancelButtonPressed,
-        child: Container(
-          margin: widget.keyboardUIConfig.digitInnerMargin,
-          child: enteredPasscode.length == 0
-              ? widget.cancelButton
-              : widget.deleteButton,
+    if (widget.deleteButton != null && widget.cancelButton != null) {
+      return Container(
+        child: CupertinoButton(
+          onPressed: _onDeleteCancelButtonPressed,
+          child: Container(
+            margin: widget.keyboardUIConfig.digitInnerMargin,
+            child: enteredPasscode.length == 0 ? widget.cancelButton : widget.deleteButton,
+          ),
         ),
-      ),
-    );
+      );
+    } else if (widget.deleteButton != null) {
+      return Container(
+        child: CupertinoButton(
+          onPressed: _onDeleteCancelButtonPressed,
+          child: Container(
+            margin: widget.keyboardUIConfig.digitInnerMargin,
+            child: widget.deleteButton,
+          ),
+        ),
+      );
+    } else if (widget.cancelButton != null) {
+      return Container(
+        child: CupertinoButton(
+          onPressed: _onCancelButtonPressed,
+          child: Container(
+            margin: widget.keyboardUIConfig.digitInnerMargin,
+            child: widget.cancelButton,
+          ),
+        ),
+      );
+    }
+    return Container();
   }
 }

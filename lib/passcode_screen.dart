@@ -28,6 +28,7 @@ class PasscodeScreen extends StatefulWidget {
   final CancelCallback? cancelCallback;
 
   final Color? backgroundColor;
+  final AppBar? appBar;
   final Widget? bottomWidget;
   final List<String>? digits;
 
@@ -44,6 +45,7 @@ class PasscodeScreen extends StatefulWidget {
     KeyboardUIConfig? keyboardUIConfig,
     this.bottomWidget,
     this.backgroundColor,
+    this.appBar,
     this.cancelCallback,
     this.digits,
   })  : circleUIConfig = circleUIConfig ?? const CircleUIConfig(),
@@ -89,6 +91,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.appBar ?? null,
       backgroundColor: widget.backgroundColor ?? Colors.black.withOpacity(0.8),
       body: SafeArea(
         child: OrientationBuilder(
@@ -263,7 +266,9 @@ class _PasscodeScreenState extends State<PasscodeScreen>
 
   _showValidation(bool isValid) {
     if (isValid) {
-      Navigator.maybePop(context).then((pop) => _validationCallback());
+      if (Navigator.canPop(context)) {
+        Navigator.maybePop(context).then((pop) => _validationCallback());
+      }
     } else {
       controller.forward();
     }

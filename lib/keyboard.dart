@@ -68,7 +68,7 @@ class Keyboard extends StatelessWidget {
     return Container(
       width: keyboardSize.width,
       height: keyboardSize.height,
-      margin: EdgeInsets.only(top: 16),
+      margin: EdgeInsets.only(top: 26),
       child: RawKeyboardListener(
         focusNode: _focusNode,
         autofocus: true,
@@ -78,7 +78,8 @@ class Keyboard extends StatelessWidget {
               onKeyboardTap(event.logicalKey.keyLabel);
               return;
             }
-            if (event.logicalKey.keyLabel== 'Backspace' || event.logicalKey.keyLabel == 'Delete') {
+            if (event.logicalKey.keyLabel == 'Backspace' ||
+                event.logicalKey.keyLabel == 'Delete') {
               onKeyboardTap(Keyboard.deleteButton);
               return;
             }

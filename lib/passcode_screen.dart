@@ -267,7 +267,7 @@ class _PasscodeScreenState extends State<PasscodeScreen>
       return;
     }
     setState(() {
-      if (widget.variablePinLength ||
+      if ((widget.variablePinLength && enteredPasscode.length < 10) ||
           enteredPasscode.length < widget.passwordDigits) {
         enteredPasscode += text;
         if (!widget.variablePinLength &&
